@@ -45,4 +45,55 @@ public final class StdRandom {
 	public static double uniform(){
 		return random.nextDouble();
 	}
+	
+	/**
+	 * Return an integer uniformly between 0(inclusive)  and N(exclusive)
+	 * @throws IllegalArgumentException if <tt>N<=0</tt>
+	 */
+	public static int uniform(int N){
+		if(N <= 0) throw new IllegalArgumentException("Parameter N must be positive");
+		return random.nextInt(N);
+	}
+
+	////////////////////////////////////////////////////////////	
+	// STATIC METHOD BELOW RELY ON JAVA.UTIL.RANDOM ONLY 
+	// INDIRECTLY VIA THE STATIC METHODS ABOVE.
+	////////////////////////////////////////////////////////////
+	
+	/**
+	 * Returns an integer uniformly in [a,b)
+	 * @throws IllegalArgumentException if <tt>b <= a</tt>
+	 * @throws IllegalArgumentException if <tt> b - a >= Integer.MAX_VALUE</tt>
+	 */
+	public static int uniform(int a, int b){
+		if(b <= a) throw new IllegalArgumentException("Invalid range");
+		if((long)b - a >= Integer.MAX_VALUE) throw new IllegalArgumentException("Invalid range");
+		return a + uniform(b-a);
+	}
+	
+	/**
+	 * Return a real number uniformly in [a,b) 
+	 * @throws IllegalArgumentException if <tt>b <= a</tt>
+	 */
+	public static double uniform(double a, double b){
+		if(b <= a) throw new IllegalArgumentException("Invalid range");
+		return a + uniform()*(b-a);
+	}
+	
+	/**
+	 * Return a boolean, which is true with probability p, and false otherwise.
+	 * @throws IllegalArgumentException if either <tt>p < 0.0</tt> or <tt>p > 1.0</tt>
+	 */
+	public static boolean bernoulli(double p){
+		if(p < 0.0 || p > 1.0)
+			throw new IllegalArgumentException("Probability must between 0.0 and 1.0");
+		return uniform() < p;
+	}
+	
+	/**
+	 * Return a boolean, which is true with probability 0.5, and false otherwise.
+	 */
+	public static boolean bernoulli(){
+		return bernoulli(0.5);
+	}
 }
