@@ -125,4 +125,17 @@ public final class StdRandom {
 			}
 		}
 	}
+	
+	/**
+	 * Rearrange the elements of an int array in random order.
+	 */
+	public static void shuffle(int[] a){
+		int N = a.length;
+		for(int i = 0; i < N; i++){
+			int r = i + uniform(N-i);        // between i and N - 1;
+			int temp = a[i];
+			a[i] = a[r];
+			a[r] = temp;
+		}
+	}
 }
