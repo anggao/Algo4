@@ -96,4 +96,33 @@ public final class StdRandom {
 	public static boolean bernoulli(){
 		return bernoulli(0.5);
 	}
+	
+	/**
+	 * Returns a number from a discrete distribution: i with probability a[i].
+	 * @throws IllegalArgumentException if sum of the array entires is not (very nearly) equal to <tt>1.0</tt>
+	 * @throws IllegalArgumentException if <tt>a[i] < 0.0 </tt> for any index <tt>i</tt>.
+	 */
+	public static int discrete(int[] a){
+		double EPSILON = 1E-14;
+		double sum = 0.0;
+		for(int i = 0; i < a.length; i++){
+			if(a[i] < 0.0)
+				throw new IllegalArgumentException("array entry " + i + " is negative: " + a[i]);
+			sum += a[i];
+		}
+		if(sum > 1.0 + EPSILON || sum < 1.0 - EPSILON){
+			throw new IllegalArgumentException("sum of array entries not equal to one: " + sum);
+		}
+		
+		// the for loop may not return a value when both r is (nearly) 1.0 and when the 
+		// cumulative sum is less than 1.0 (as a result of floating-point roundoff error)
+		while(true){
+			double r = uniform();
+			sum = 0.0;
+			for(int i = 0; i < a.length; i++){
+				sum = sum + a[i];
+				if(sum > r) return i;
+			}
+		}
+	}
 }
