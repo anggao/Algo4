@@ -1,5 +1,7 @@
 package ch01;
 
+import edu.princeton.cs.introcs.StdOut;
+
 public class GCD {
 
 	public static int gcd(int p, int q) {
@@ -11,6 +13,6 @@ public class GCD {
 
 	public static void main(String[] args) {
 		int a = 10, b = 7;
-		System.out.println(gcd(a, b));
+		StdOut.print(gcd(a, b));
 	}
 }
