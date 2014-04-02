@@ -1,4 +1,4 @@
-package ch01;
+package ch01.src1;
 
 public class BinarySearchRec {
 	public static int rank(int k, int[] a) {
