@@ -2,9 +2,10 @@ package ch01.src3;
 
 import java.util.Iterator;
 
-public class LinkedListStack<Item> implements Iterable<Item> {
-	private Node first; // top of stack (most recently added node)
-	private int N; // number of items
+public class LinkedListQueue<Item> implements Iterable<Item> {
+	private Node first; // link to least recently added node
+	private Node last; // link to most recently added node
+	private int N;
 
 	private class Node {
 		Item item;
@@ -19,27 +20,33 @@ public class LinkedListStack<Item> implements Iterable<Item> {
 		return N;
 	}
 
-	public void push(Item item) {
-		Node oldfirst = first;
-		first = new Node();
-		first.item = item;
-		first.next = oldfirst;
+	public void enqueue(Item item) {
+		Node oldlast = last;
+		last = new Node();
+		last.item = item;
+		last.next = null;
+		if (isEmpty())
+			first = last;
+		else
+			oldlast.next = last;
 		N++;
 	}
 
-	public Item pop() {
+	public Item dequeue() {
 		Item item = first.item;
 		first = first.next;
+		if (isEmpty())
+			last = null;
 		N--;
 		return item;
 	}
 
-	private class StackIterator implements Iterator<Item> {
+	private class QueueIterator implements Iterator<Item> {
 		private Node current = first;
 
 		@Override
 		public boolean hasNext() {
-			return current != null;
+			return first != null;
 		}
 
 		@Override
@@ -52,11 +59,11 @@ public class LinkedListStack<Item> implements Iterable<Item> {
 		@Override
 		public void remove() {
 		}
+
 	}
 
 	@Override
 	public Iterator<Item> iterator() {
-		return new StackIterator();
+		return new QueueIterator();
 	}
-
 }
